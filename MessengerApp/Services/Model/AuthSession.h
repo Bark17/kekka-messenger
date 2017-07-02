@@ -27,5 +27,6 @@
 
 - (void)configureWithUser:(User *)user;
 - (void)saveCurrentUser;
+- (void)updateAvatarURL:(NSURL *)url;
 
 @end

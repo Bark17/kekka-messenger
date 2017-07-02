@@ -227,7 +227,12 @@ static NSString *const contactCellIdentifier = @"contactCell";
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController {
     NSString *searchText = searchController.searchBar.text;
     NSInteger selectedScope = searchController.searchBar.selectedScopeButtonIndex;
-    [self searchForText:[searchText lowercaseString] selectedScope:selectedScope];
+    if (searchText.length == 0) {
+        self.searchResults = [self.addressBookViewModels copy];
+        [self.tableView reloadData];
+    } else {
+        [self searchForText:[searchText lowercaseString] selectedScope:selectedScope];
+    }
 }
 
 - (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {

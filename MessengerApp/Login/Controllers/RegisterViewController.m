@@ -277,7 +277,7 @@
     if (self.imageFile && self.chosenImage) {
         UserRemoteService *userService = [UserRemoteService new];
         [userService uploadAvatarImage:self.chosenImage withCompletion:^(NSURL *avatarURL) {
-            AuthSession.currentSession.user.avatarURL = avatarURL;
+            [AuthSession.currentSession updateAvatarURL:avatarURL];
         }];
     }
 }

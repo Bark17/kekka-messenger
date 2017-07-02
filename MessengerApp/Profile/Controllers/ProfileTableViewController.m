@@ -222,7 +222,7 @@
         UserRemoteService *userService = [UserRemoteService new];
         [userService deleteAvatarImageWithCompletion:^(BOOL result) {
             if (result) {
-                AuthSession.currentSession.user.avatarURL = nil;
+                [AuthSession.currentSession updateAvatarURL:nil];
                 self.profileInfoViewModel = [[ProfileInfoViewModel alloc] initWithModel:AuthSession.currentSession.user];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.profileInfoCell configureWithViewModel:self.profileInfoViewModel];
@@ -253,7 +253,7 @@
         UserRemoteService *userService = [UserRemoteService new];
         [userService uploadAvatarImage:chosenImage withCompletion:^(NSURL *avatarURL) {
             if (avatarURL) {
-                AuthSession.currentSession.user.avatarURL = avatarURL;
+                [AuthSession.currentSession updateAvatarURL:avatarURL];
                 self.profileInfoViewModel = [[ProfileInfoViewModel alloc] initWithModel:AuthSession.currentSession.user];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.profileInfoCell configureWithViewModel:self.profileInfoViewModel];

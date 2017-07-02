@@ -84,6 +84,25 @@
     NSLog(@"Save completed; Error: %@", saveError.localizedDescription);
 }
 
+- (void)updateAvatarURL:(NSURL *)url {
+    AuthSession.currentSession.user.avatarURL = url;
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = appDelegate.persistentContainer.viewContext;
+    NSFetchRequest *fetchRequest = [UserMO fetchRequest];
+    NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"uid == %@", [[FIRAuth auth] currentUser].uid];
+    [fetchRequest setPredicate:currentUserPredicate];
+    NSError *error = nil;
+    NSArray *currentUserArray = [context executeFetchRequest:fetchRequest error:&error];
+    if (error || currentUserArray.count < 1) {
+        return;
+    } else if (currentUserArray.count > 0) {
+        UserMO *currentUserMO = [currentUserArray objectAtIndex:0];
+        currentUserMO.avatarUrlString = [self.user.avatarURL absoluteString];
+        NSError *saveError = nil;
+        [context save:&saveError];
+    }
+}
+
 #pragma mark - Private
 - (User *)fetchCurrentUserWithUid:(NSString *)uid {
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
