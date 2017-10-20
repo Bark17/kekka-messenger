@@ -71,10 +71,14 @@
 - (void)configureNavigationBar {
     self.title = self.chatData.userViewModel.name;
     /* Avatar button */
-    UIButton *barButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+    UIButton *barButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30.0, 30.0)];
     [barButton sd_setImageWithURL:self.chatData.userViewModel.avatarURL forState:UIControlStateNormal];
     barButton.layer.cornerRadius = barButton.bounds.size.width / 2.0;
     barButton.clipsToBounds = YES;
+    NSLayoutConstraint *widthConstraint = [barButton.widthAnchor constraintEqualToConstant:30];
+    NSLayoutConstraint *heightConstraint = [barButton.heightAnchor constraintEqualToConstant:30];
+    [widthConstraint setActive:YES];
+    [heightConstraint setActive:YES];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:barButton];
 }
 
